@@ -492,4 +492,6 @@
     <string name="language">Linguagem</string>
     <string name="advanced_features">Configurações avançadas</string>
     <string name="budget_exceeded_info">Orçamento excedido por %1$s %2$s</string>
+    <string name="manual_backup">Backup manual</string>
+    <string name="backup_to">Backup para</string>
 </resources>

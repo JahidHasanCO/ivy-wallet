@@ -48,6 +48,7 @@ import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.rootScreen
 import com.ivy.legacy.utils.drawColoredShadow
 import com.ivy.navigation.AttributionsScreen
+import com.ivy.navigation.BackupScreen
 import com.ivy.navigation.ContributorsScreen
 import com.ivy.navigation.ExchangeRatesScreen
 import com.ivy.navigation.FeaturesScreen
@@ -254,7 +255,13 @@ private fun BoxWithConstraintsScope.UI(
                 text = stringResource(R.string.backup_data),
                 iconPadding = 8.dp
             ) {
-                onBackupData()
+                // TODO: need to change for navigate new page
+//                onBackupData()
+                nav.navigateTo(
+                    BackupScreen(
+                        launchedFromOnboarding = false
+                    )
+                )
             }
 
             Spacer(Modifier.height(12.dp))

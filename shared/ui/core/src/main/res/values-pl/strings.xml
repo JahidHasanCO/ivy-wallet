@@ -447,4 +447,6 @@
     <string name="search_tags">Tagi wyszukiwania</string>
     <string name="language">Język</string>
     <string name="budget_exceeded_info">Budżet przekroczony o %1$s %2$s</string>
+    <string name="manual_backup">Ręczna kopia zapasowa</string>
+    <string name="backup_to">Kopia zapasowa do</string>
 </resources>

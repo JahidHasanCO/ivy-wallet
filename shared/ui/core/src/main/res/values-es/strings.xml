@@ -453,4 +453,6 @@
     <string name="language">Idioma</string>
     <string name="budget_exceeded_info">Presupuesto excedido por %1$s %2$s</string>
     <string name="do_not_use_for_backup_purposes">⚠\uFE0F Uso no destinado a copia de seguridad</string>
+    <string name="manual_backup">Copia manual</string>
+    <string name="backup_to">Copia a</string>
 </resources>

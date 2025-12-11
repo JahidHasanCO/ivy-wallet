@@ -444,4 +444,6 @@
     <string name="search_tags">وسوم البحث</string>
     <string name="language">لغة</string>
     <string name="budget_exceeded_info">تم تجاوز الميزانية بـ %2$s %1$s</string>
+    <string name="manual_backup">نسخ احتياطي يدوي</string>
+    <string name="backup_to">نسخ احتياطي إلى</string>
 </resources>

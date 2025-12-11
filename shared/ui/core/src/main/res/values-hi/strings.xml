@@ -444,4 +444,6 @@
     <string name="search_tags">\"खोज टैग्स</string>
     <string name="language">भाषा</string>
     <string name="budget_exceeded_info">बजट %1$s %2$s से अधिक हो गया है</string>
+    <string name="manual_backup">मैनुअल बैकअप</string>
+    <string name="backup_to">बैकअप गंतव्य</string>
 </resources>

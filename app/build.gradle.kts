@@ -123,6 +123,7 @@ android {
 
 dependencies {
     implementation(projects.feature.attributions)
+    implementation(projects.feature.backupData)
     implementation(projects.feature.balance)
     implementation(projects.feature.budgets)
     implementation(projects.feature.categories)

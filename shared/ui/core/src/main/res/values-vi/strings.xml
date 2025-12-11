@@ -490,4 +490,6 @@
     <string name="select_tags">Chọn thẻ</string>
     <string name="language">Ngôn ngữ</string>
     <string name="budget_exceeded_info">Ngân sách vượt quá %1$s %2$s</string>
+    <string name="manual_backup">Sao lưu thủ công</string>
+    <string name="backup_to">Sao lưu đến</string>
 </resources>

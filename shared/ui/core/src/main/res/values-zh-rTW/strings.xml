@@ -495,4 +495,6 @@
     <string name="bill_paid">您的 %1$s %2$s 帳單已支付</string>
     <string name="language">語言</string>
     <string name="advanced_features">進階功能</string>
+    <string name="manual_backup">手動備份</string>
+    <string name="backup_to">備份到</string>
 </resources>

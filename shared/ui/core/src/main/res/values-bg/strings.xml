@@ -444,4 +444,6 @@
     <string name="search_tags">Търсени етикети</string>
     <string name="language">Eзик</string>
     <string name="budget_exceeded_info">Бюджетът е надвишен с %1$s %2$s</string>
+    <string name="manual_backup">Ръчно архивиране</string>
+    <string name="backup_to">Архивиране в</string>
 </resources>

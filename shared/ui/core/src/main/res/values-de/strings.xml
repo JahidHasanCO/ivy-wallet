@@ -491,4 +491,6 @@
     <string name="select_tags">Tags auswählen</string>
     <string name="language">Sprache</string>
     <string name="budget_exceeded_info">Budget überschritten um %1$s %2$s</string>
+    <string name="manual_backup">Manuelles Backup</string>
+    <string name="backup_to">Backup nach</string>
 </resources>

@@ -444,4 +444,6 @@
     <string name="search_tags">ಹುಡುಕಿನ ಟ್ಯಾಗ್‌ಗಳು</string>
     <string name="language">ಭಾಷೆ</string>
     <string name="budget_exceeded_info">ಬಜೆಟ್ %1$s %2$s ಹೆಚ್ಚಾಗಿದೆ</string>
+    <string name="manual_backup">ಮ್ಯಾನುಯಲ್ ಬ್ಯಾಕಪ್</string>
+    <string name="backup_to">ಬ್ಯಾಕಪ್ ಗಮ್ಯಸ್ಥಾನ</string>
 </resources>

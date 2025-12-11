@@ -484,4 +484,6 @@
     <string name="you_are_owed">Ti sono dovuti %1$s</string>
     <string name="language">Lingua</string>
     <string name="budget_exceeded_info">Budget superato di %1$s %2$s</string>
+    <string name="manual_backup">Backup manuale</string>
+    <string name="backup_to">Backup su</string>
 </resources>

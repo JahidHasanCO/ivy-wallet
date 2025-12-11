@@ -95,6 +95,14 @@ data object SettingsScreen : Screen {
         get() = true
 }
 
+data class BackupScreen(
+    val launchedFromOnboarding: Boolean
+) : Screen {
+    override val isLegacy: Boolean
+        get() = true
+}
+
+
 data class ImportScreen(
     val launchedFromOnboarding: Boolean
 ) : Screen {

@@ -444,4 +444,6 @@
     <string name="search_tags">Теги поиска</string>
     <string name="language">Язык</string>
     <string name="budget_exceeded_info">Бюджет превышен на %1$s %2$s</string>
+    <string name="manual_backup">Ручное резервное копирование</string>
+    <string name="backup_to">Резервное копирование в</string>
 </resources>

@@ -491,4 +491,6 @@
     <string name="select_tags">选择标签</string>
     <string name="language">语言</string>
     <string name="budget_exceeded_info">预算超出 %1$s %2$s</string>
+    <string name="manual_backup">手动备份</string>
+    <string name="backup_to">备份到</string>
 </resources>
