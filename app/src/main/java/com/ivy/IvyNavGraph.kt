@@ -1,9 +1,14 @@
 package com.ivy
 
+import android.app.Activity
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.BoxWithConstraintsScope
 import androidx.compose.runtime.Composable
+import com.google.android.gms.common.api.ApiException
 import com.ivy.attributions.AttributionsScreenImpl
 import com.ivy.backupdata.BackupStepScreen
 import com.ivy.balance.BalanceScreen
@@ -61,11 +66,11 @@ import com.ivy.transactions.TransactionsScreen
 @Composable
 @Suppress("CyclomaticComplexMethod", "FunctionNaming")
 fun BoxWithConstraintsScope.IvyNavGraph(screen: Screen?) {
+
     when (screen) {
         null -> {
             // show nothing
         }
-
         is MainScreen -> MainScreen(screen = screen)
         is OnboardingScreen -> OnboardingScreen(screen = screen)
         is ExchangeRatesScreen -> ExchangeRatesScreen()

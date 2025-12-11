@@ -488,6 +488,7 @@
     <string name="you_are_owed">You\'re owed %1$s</string>
     <string name="manual_csv_import">Manual CSV import</string>
     <string name="manual_backup">Manual Backup</string>
+    <string name="backup_now">Backup Now</string>
     <string name="backup_to">Backup To</string>
     <string name="csv_import_failed">If this doesn\'t work, consider using manual CSV import.</string>
     <string name="import_a_csv_file_to_continue">Import a CSV file to continue.</string>

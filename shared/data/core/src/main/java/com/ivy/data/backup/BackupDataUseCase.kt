@@ -3,12 +3,14 @@ package com.ivy.data.backup
 import android.content.Context
 import android.net.Uri
 import androidx.core.net.toUri
+import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException
 import com.ivy.base.legacy.SharedPrefs
 import com.ivy.base.legacy.unzip
 import com.ivy.base.legacy.zip
 import com.ivy.base.threading.DispatchersProvider
 import com.ivy.data.DataObserver
 import com.ivy.data.DataWriteEvent
+import com.ivy.data.backup.drive.GoogleDriveBackupManager
 import com.ivy.data.db.dao.read.AccountDao
 import com.ivy.data.db.dao.read.BudgetDao
 import com.ivy.data.db.dao.read.CategoryDao
@@ -72,7 +74,7 @@ class BackupDataUseCase @Inject constructor(
     private val tagsReader: TagDao,
     private val tagAssociationReader: TagAssociationDao,
     private val tagsWriter: WriteTagDao,
-    private val tagAssociationWriter: WriteTagAssociationDao
+    private val tagAssociationWriter: WriteTagAssociationDao,
 ) {
     suspend fun exportToFile(
         zipFileUri: Uri
@@ -82,6 +84,56 @@ class BackupDataUseCase @Inject constructor(
         zip(context = context, zipFileUri, listOf(file))
         clearCacheDir()
     }
+
+    suspend fun backupToGoogleDrive(googleDriveBackupManager: GoogleDriveBackupManager): Result<String> = withContext(dispatchersProvider.io) {
+        try {
+            val jsonString = generateJsonBackup()
+            val jsonFile = createJsonDataFile(jsonString)
+            val zipFile = File(context.cacheDir, "backup_${System.currentTimeMillis()}.zip")
+            val zipUri = Uri.fromFile(zipFile)
+
+            zip(context, zipUri, listOf(jsonFile))
+
+            val result = googleDriveBackupManager.uploadBackupToDrive(zipUri)
+            clearCacheDir()
+
+            return@withContext result
+
+        } catch (e: Exception) {
+            Timber.e(e, "Google Drive backup failed")
+            return@withContext Result.failure(e)
+        }
+    }
+
+    suspend fun restoreFromGoogleDrive(
+        googleDriveBackupManager: GoogleDriveBackupManager,
+        fileId: String,
+        onProgress: suspend (Double) -> Unit = {}
+    ): ImportResult = withContext(dispatchersProvider.io) {
+        try {
+            val downloadResult = googleDriveBackupManager.downloadBackupFromDrive(fileId)
+            val backupFile = downloadResult.getOrElse {
+                throw it
+            }
+
+            importBackupFile(backupFile.toUri(), onProgress)
+
+        } catch (e: UserRecoverableAuthIOException) {
+            Timber.e(e, "Permission required to restore from Google Drive")
+            throw e
+        } catch (e: Exception) {
+            Timber.e(e, "Failed to restore backup from Google Drive")
+            ImportResult(
+                rowsFound = 0,
+                transactionsImported = 0,
+                accountsImported = 0,
+                categoriesImported = 0,
+                failedRows = persistentListOf()
+            )
+        }
+    }
+
+
 
     private fun createJsonDataFile(jsonString: String): File {
         val fileNamePrefix = "data"

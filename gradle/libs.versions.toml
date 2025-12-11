@@ -13,6 +13,14 @@ room = "2.6.1"
 androidx-work = "2.9.1"
 kotlinx-collections = "0.3.7"
 paparazzi = "1.3.3"
+firebase-bom = "32.7.0"
+play-services-auth = "20.7.0"
+google-api-services-drive = "v3-rev20220815-2.0.0"
+google-api-client = "2.0.0"
+google-api-client-android = "1.32.1"
+google-oauth-client-jetty = "1.34.1"
+google-auth-library = "1.19.0"
+
 
 # Android
 min-sdk = "28"
@@ -111,6 +119,20 @@ google-play-review = { module = "com.google.android.play:review-ktx", version = 
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics", version = "19.0.3" }
 firebase-crashlytics-gradle-plugin = { module = "com.google.firebase:firebase-crashlytics-gradle", version = "3.0.2" }
 firebase-firestore = { module = "com.google.firebase:firebase-firestore", version = "25.1.4" }
+firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebase-bom" }
+firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
+firebase-auth = { module = "com.google.firebase:firebase-auth" }
+google-play-auth = { module = "com.google.android.gms:play-services-auth", version.ref = "play-services-auth" }
+google-drive = { module = "com.google.apis:google-api-services-drive", version.ref = "google-api-services-drive" }
+google-api-client = { module = "com.google.api-client:google-api-client", version.ref = "google-api-client" }
+google-api-client-android = { module = "com.google.api-client:google-api-client-android", version.ref = "google-api-client-android" }
+google-oauth-jetty = { module = "com.google.oauth-client:google-oauth-client-jetty", version.ref = "google-oauth-client-jetty" }
+google-auth-oauth = { module = "com.google.auth:google-auth-library-oauth2-http", version.ref = "google-auth-library" }
+# Google Drive & OAuth
+google-api-services-drive = { module = "com.google.apis:google-api-services-drive", version.ref = "google-api-services-drive" }
+google-oauth-client-jetty = { module = "com.google.oauth-client:google-oauth-client-jetty", version.ref = "google-oauth-client-jetty" }
+google-auth-library-oauth = { module = "com.google.auth:google-auth-library-oauth2-http", version.ref = "google-auth-library" }
+
 
 # AndroidX
 androidx-security = { module = "androidx.security:security-crypto", version = "1.0.0" }
@@ -214,6 +236,13 @@ google = [
     "google-play-update",
     "google-play-services",
     "google-play-review"
+]
+google-drive = [
+    "google-api-services-drive",
+    "google-api-client",
+    "google-api-client-android",
+    "google-oauth-client-jetty",
+    "google-auth-library-oauth"
 ]
 firebase = [
     "firebase-crashlytics"

@@ -119,6 +119,19 @@ android {
         xmlOutput = file("${project.rootDir}/build/reports/lint/lint.xml")
         baseline = file("lint-baseline.xml")
     }
+
+    packaging {
+        resources {
+            excludes += listOf(
+                "META-INF/DEPENDENCIES",
+                "META-INF/LICENSE",
+                "META-INF/LICENSE.txt",
+                "META-INF/NOTICE",
+                "META-INF/NOTICE.txt"
+            )
+        }
+    }
+
 }
 
 dependencies {
