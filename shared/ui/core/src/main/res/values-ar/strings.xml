@@ -445,5 +445,8 @@
     <string name="language">لغة</string>
     <string name="budget_exceeded_info">تم تجاوز الميزانية بـ %2$s %1$s</string>
     <string name="manual_backup">نسخ احتياطي يدوي</string>
-    <string name="backup_to">نسخ احتياطي إلى</string>
+    <string name="backup_to">نسخ احتياطي إلى درايف</string>
+    <string name="backup_now">نسخ احتياطي الآن</string>
+    <string name="google_drive_backup">نسخ احتياطي في جوجل درايف</string>
+    <string name="google_drive_backup_description">الرجاء الانتظار، جاري نسخ بياناتك احتياطياً</string>
 </resources>

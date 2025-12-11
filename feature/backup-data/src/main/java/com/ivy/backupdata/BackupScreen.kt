@@ -56,6 +56,7 @@ fun BoxWithConstraintsScope.BackupStepScreen(
         screen = screen,
         backupStep = backupStep,
         progressState = uiState.progressState,
+        driveProgressState = uiState.driveProgressState,
         signedInAccount = signedInAccount,
         onBackupData = {
             viewModel.onEvent(BackupEvent.BackupData(rootScreen))
@@ -77,6 +78,7 @@ private fun BoxWithConstraintsScope.UI(
     backupStep: BackupStep,
     onSkip: () -> Unit = {},
     progressState: Boolean = false,
+    driveProgressState: Boolean = false,
     onBackupData: () -> Unit = {},
     onBackupToDrive: () -> Unit = {},
     signedInAccount: GoogleSignInAccount? = null,
@@ -98,6 +100,12 @@ private fun BoxWithConstraintsScope.UI(
         title = stringResource(R.string.exporting_data),
         description = stringResource(R.string.exporting_data_description),
         visible = progressState
+    )
+
+    ProgressModal(
+        title = stringResource(R.string.google_drive_backup),
+        description = stringResource(R.string.google_drive_backup_description),
+        visible = driveProgressState
     )
 }
 

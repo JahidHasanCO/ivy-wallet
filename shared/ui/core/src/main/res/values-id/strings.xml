@@ -448,5 +448,8 @@
     <string name="language">Bahasa</string>
     <string name="budget_exceeded_info">Anggaran terlampaui sebesar %1$s %2$s</string>
     <string name="manual_backup">Cadangan Manual</string>
-    <string name="backup_to">Cadangkan Ke</string>
+    <string name="backup_to">Cadangkan ke Drive</string>
+    <string name="backup_now">Cadangkan Sekarang</string>
+    <string name="google_drive_backup">Cadangan Google Drive</string>
+    <string name="google_drive_backup_description">Harap tunggu, sedang mencadangkan data Anda</string>
 </resources>

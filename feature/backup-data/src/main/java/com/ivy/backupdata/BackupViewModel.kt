@@ -45,6 +45,7 @@ class BackupViewModel @Inject constructor(
     val backupStep = _backupStep.asLiveData()
 
     private val progressState = mutableStateOf(false)
+    private val driveProgressState = mutableStateOf(false)
     private val googleBackupResult = mutableStateOf<Result<String>?>(null)
     private val signedInAccount = mutableStateOf<GoogleSignInAccount?>(null)
     val signedInAccountState: State<GoogleSignInAccount?> get() = signedInAccount
@@ -52,7 +53,8 @@ class BackupViewModel @Inject constructor(
     @Composable
     override fun uiState(): BackupState {
         return BackupState(
-            progressState = getProgressState()
+            progressState = getProgressState(),
+            driveProgressState = getDriveProgressState()
         )
     }
 
@@ -66,6 +68,11 @@ class BackupViewModel @Inject constructor(
     @Composable
     private fun getProgressState(): Boolean {
         return progressState.value
+    }
+
+    @Composable
+    private fun getDriveProgressState(): Boolean {
+        return driveProgressState.value
     }
 
     private fun exportToZip(rootScreen: RootScreen) {
@@ -111,7 +118,7 @@ class BackupViewModel @Inject constructor(
 
     fun backupToGoogleDrive(context: Context) {
         val account = signedInAccount.value ?: return
-        progressState.value = true
+        driveProgressState.value = true
 
         val credential = GoogleAccountCredential.usingOAuth2(
             context,
@@ -128,7 +135,7 @@ class BackupViewModel @Inject constructor(
 
         viewModelScope.launch(Dispatchers.IO) {
             googleBackupResult.value = backupDataUseCase.backupToGoogleDrive(driveBackupManager)
-            progressState.value = false
+            driveProgressState.value = false
         }
     }
 

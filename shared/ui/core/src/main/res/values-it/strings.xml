@@ -485,5 +485,8 @@
     <string name="language">Lingua</string>
     <string name="budget_exceeded_info">Budget superato di %1$s %2$s</string>
     <string name="manual_backup">Backup manuale</string>
-    <string name="backup_to">Backup su</string>
+    <string name="backup_to">Backup su Drive</string>
+    <string name="backup_now">Esegui backup ora</string>
+    <string name="google_drive_backup">Backup su Google Drive</string>
+    <string name="google_drive_backup_description">Attendi mentre viene eseguito il backup dei tuoi dati</string>
 </resources>

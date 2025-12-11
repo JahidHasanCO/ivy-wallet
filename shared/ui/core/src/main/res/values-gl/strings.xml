@@ -496,5 +496,8 @@
     <string name="language">Lingua</string>
     <string name="advanced_features">Funcionalidades avanzadas</string>
     <string name="manual_backup">Copia de seguridade manual</string>
-    <string name="backup_to">Copia de seguridade a</string>
+    <string name="backup_to">Copia de seguridade en Drive</string>
+    <string name="backup_now">Facer copia agora</string>
+    <string name="google_drive_backup">Copia de seguridade de Google Drive</string>
+    <string name="google_drive_backup_description">Espera mentres se fai unha copia de seguridade dos teus datos</string>
 </resources>

@@ -445,5 +445,8 @@
     <string name="language">भाषा</string>
     <string name="budget_exceeded_info">बजट %1$s %2$s से अधिक हो गया है</string>
     <string name="manual_backup">मैनुअल बैकअप</string>
-    <string name="backup_to">बैकअप गंतव्य</string>
+    <string name="backup_to">ड्राइव पर बैकअप</string>
+    <string name="backup_now">अभी बैकअप लें</string>
+    <string name="google_drive_backup">Google ड्राइव बैकअप</string>
+    <string name="google_drive_backup_description">कृपया प्रतीक्षा करें, जबकि आपके डेटा का बैकअप लिया जा रहा है</string>
 </resources>

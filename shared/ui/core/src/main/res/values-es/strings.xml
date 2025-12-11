@@ -454,5 +454,8 @@
     <string name="budget_exceeded_info">Presupuesto excedido por %1$s %2$s</string>
     <string name="do_not_use_for_backup_purposes">⚠\uFE0F Uso no destinado a copia de seguridad</string>
     <string name="manual_backup">Copia manual</string>
-    <string name="backup_to">Copia a</string>
+    <string name="backup_to">Copia de seguridad en Drive</string>
+    <string name="backup_now">Hacer copia ahora</string>
+    <string name="google_drive_backup">Copia de seguridad de Google Drive</string>
+    <string name="google_drive_backup_description">Espere mientras se hace una copia de seguridad de sus datos</string>
 </resources>

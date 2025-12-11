@@ -493,5 +493,8 @@
     <string name="advanced_features">Configurações avançadas</string>
     <string name="budget_exceeded_info">Orçamento excedido por %1$s %2$s</string>
     <string name="manual_backup">Backup manual</string>
-    <string name="backup_to">Backup para</string>
+    <string name="backup_to">Backup no Drive</string>
+    <string name="backup_now">Fazer backup agora</string>
+    <string name="google_drive_backup">Backup do Google Drive</string>
+    <string name="google_drive_backup_description">Aguarde enquanto fazemos o backup dos seus dados</string>
 </resources>

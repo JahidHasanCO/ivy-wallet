@@ -496,5 +496,8 @@
     <string name="language">語言</string>
     <string name="advanced_features">進階功能</string>
     <string name="manual_backup">手動備份</string>
-    <string name="backup_to">備份到</string>
+    <string name="backup_to">備份到雲端硬碟</string>
+    <string name="backup_now">立即備份</string>
+    <string name="google_drive_backup">Google Drive 備份</string>
+    <string name="google_drive_backup_description">請稍候，正在備份您的資料</string>
 </resources>

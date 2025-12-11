@@ -491,5 +491,8 @@
     <string name="language">Ngôn ngữ</string>
     <string name="budget_exceeded_info">Ngân sách vượt quá %1$s %2$s</string>
     <string name="manual_backup">Sao lưu thủ công</string>
-    <string name="backup_to">Sao lưu đến</string>
+    <string name="backup_to">Sao lưu vào Drive</string>
+    <string name="backup_now">Sao lưu ngay</string>
+    <string name="google_drive_backup">Sao lưu Google Drive</string>
+    <string name="google_drive_backup_description">Vui lòng đợi trong khi sao lưu dữ liệu của bạn</string>
 </resources>

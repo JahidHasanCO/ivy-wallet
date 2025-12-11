@@ -445,5 +445,8 @@
     <string name="language">Язык</string>
     <string name="budget_exceeded_info">Бюджет превышен на %1$s %2$s</string>
     <string name="manual_backup">Ручное резервное копирование</string>
-    <string name="backup_to">Резервное копирование в</string>
+    <string name="backup_to">Резервное копирование на Диск</string>
+    <string name="backup_now">Создать резервную копию сейчас</string>
+    <string name="google_drive_backup">Резервное копирование Google Drive</string>
+    <string name="google_drive_backup_description">Пожалуйста, подождите, идет резервное копирование ваших данных</string>
 </resources>

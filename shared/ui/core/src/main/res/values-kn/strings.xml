@@ -445,5 +445,8 @@
     <string name="language">ಭಾಷೆ</string>
     <string name="budget_exceeded_info">ಬಜೆಟ್ %1$s %2$s ಹೆಚ್ಚಾಗಿದೆ</string>
     <string name="manual_backup">ಮ್ಯಾನುಯಲ್ ಬ್ಯಾಕಪ್</string>
-    <string name="backup_to">ಬ್ಯಾಕಪ್ ಗಮ್ಯಸ್ಥಾನ</string>
+    <string name="backup_to">ಡ್ರೈವ್‌ಗೆ ಬ್ಯಾಕಪ್ ಮಾಡಿ</string>
+    <string name="backup_now">ಈಗ ಬ್ಯಾಕಪ್ ಮಾಡಿ</string>
+    <string name="google_drive_backup">Google ಡ್ರೈವ್ ಬ್ಯಾಕಪ್</string>
+    <string name="google_drive_backup_description">ದಯವಿಟ್ಟು ನಿರೀಕ್ಷಿಸಿ, ನಿಮ್ಮ ಡೇಟಾವನ್ನು ಬ್ಯಾಕಪ್ ಮಾಡಲಾಗುತ್ತಿದೆ</string>
 </resources>

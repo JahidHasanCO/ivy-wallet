@@ -445,5 +445,8 @@
     <string name="language">Eзик</string>
     <string name="budget_exceeded_info">Бюджетът е надвишен с %1$s %2$s</string>
     <string name="manual_backup">Ръчно архивиране</string>
-    <string name="backup_to">Архивиране в</string>
+    <string name="backup_to">Архивиране в Drive</string>
+    <string name="backup_now">Архивиране сега</string>
+    <string name="google_drive_backup">Архивиране в Google Drive</string>
+    <string name="google_drive_backup_description">Моля, изчакайте, докато данните ви се архивират</string>
 </resources>
