@@ -94,7 +94,6 @@ fun BoxWithConstraintsScope.SettingsScreen() {
         showNotifications = uiState.showNotifications,
         hideCurrentBalance = uiState.hideCurrentBalance,
         hideIncome = uiState.hideIncome,
-        progressState = uiState.progressState,
         treatTransfersAsIncomeExpense = uiState.treatTransfersAsIncomeExpense,
         nameLocalAccount = uiState.name,
         startDateOfMonth = uiState.startDateOfMonth.toInt(),
@@ -104,9 +103,6 @@ fun BoxWithConstraintsScope.SettingsScreen() {
         },
         onSetName = {
             viewModel.onEvent(SettingsEvent.SetName(it))
-        },
-        onBackupData = {
-            viewModel.onEvent(SettingsEvent.BackupData(rootScreen))
         },
         onExportToCSV = {
             viewModel.onEvent(SettingsEvent.ExportToCsv(rootScreen))
@@ -156,10 +152,8 @@ private fun BoxWithConstraintsScope.UI(
     showNotifications: Boolean = true,
     hideCurrentBalance: Boolean = false,
     hideIncome: Boolean = false,
-    progressState: Boolean = false,
     treatTransfersAsIncomeExpense: Boolean = false,
     onSetName: (String) -> Unit = {},
-    onBackupData: () -> Unit = {},
     onExportToCSV: () -> Unit = {},
     onSetLockApp: (Boolean) -> Unit = {},
     onSetShowNotifications: (Boolean) -> Unit = {},
@@ -255,8 +249,6 @@ private fun BoxWithConstraintsScope.UI(
                 text = stringResource(R.string.backup_data),
                 iconPadding = 8.dp
             ) {
-                // TODO: need to change for navigate new page
-//                onBackupData()
                 nav.navigateTo(
                     BackupScreen(
                         launchedFromOnboarding = false
@@ -575,12 +567,6 @@ private fun BoxWithConstraintsScope.UI(
             onDeleteCloudUserData()
             deleteCloudDataModalVisible = false
         }
-    )
-
-    ProgressModal(
-        title = stringResource(R.string.exporting_data),
-        description = stringResource(R.string.exporting_data_description),
-        visible = progressState
     )
 }
 

@@ -35,6 +35,7 @@ fun BoxWithConstraintsScope.BackupTo(
     hasSkip: Boolean,
     launchedFromOnboarding: Boolean,
     onSkip: () -> Unit = {},
+    onBackupData: () -> Unit = {},
 ) {
     LazyColumn(
         modifier = Modifier
@@ -61,7 +62,7 @@ fun BoxWithConstraintsScope.BackupTo(
                     .height(64.dp)
                     .padding(horizontal = 16.dp),
                 onClick = {
-                    // TODO: add manual backup here
+                    onBackupData();
                 }
             ) {
                 Text(

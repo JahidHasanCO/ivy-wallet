@@ -49,7 +49,6 @@ class SettingsViewModel @Inject constructor(
     private val ivyContext: IvyWalletCtx,
     private val logoutLogic: LogoutLogic,
     private val sharedPrefs: SharedPrefs,
-    private val backupDataUseCase: BackupDataUseCase,
     private val startDayOfMonthAct: StartDayOfMonthAct,
     private val updateStartDayOfMonthAct: UpdateStartDayOfMonthAct,
     private val syncExchangeRatesUseCase: SyncExchangeRatesUseCase,
@@ -69,7 +68,6 @@ class SettingsViewModel @Inject constructor(
     private val hideIncome = mutableStateOf(false)
     private val treatTransfersAsIncomeExpense = mutableStateOf(false)
     private val startDateOfMonth = mutableIntStateOf(1)
-    private val progressState = mutableStateOf(false)
 
     @Composable
     override fun uiState(): SettingsState {
@@ -86,7 +84,6 @@ class SettingsViewModel @Inject constructor(
             hideCurrentBalance = getHideCurrentBalance(),
             treatTransfersAsIncomeExpense = getTreatTransfersAsIncomeExpense(),
             startDateOfMonth = getStartDateOfMonth(),
-            progressState = getProgressState(),
             hideIncome = getHideIncome(),
             languageOptionVisible = isLanguageOptionVisible()
         )
@@ -198,11 +195,6 @@ class SettingsViewModel @Inject constructor(
         return startDateOfMonth.intValue.toString()
     }
 
-    @Composable
-    private fun getProgressState(): Boolean {
-        return progressState.value
-    }
-
     private fun isLanguageOptionVisible(): Boolean {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
     }
@@ -212,7 +204,6 @@ class SettingsViewModel @Inject constructor(
             is SettingsEvent.SetCurrency -> setCurrency(event.newCurrency)
             is SettingsEvent.SetName -> setName(event.newName)
             is SettingsEvent.ExportToCsv -> exportToCSV(event.rootScreen)
-            is SettingsEvent.BackupData -> exportToZip(event.rootScreen)
             SettingsEvent.SwitchTheme -> switchTheme()
             is SettingsEvent.SetLockApp -> setLockApp(event.lockApp)
             is SettingsEvent.SetShowNotifications -> setShowNotifications(event.showNotifications)
@@ -281,29 +272,6 @@ class SettingsViewModel @Inject constructor(
                 rootScreen.shareCSVFile(
                     fileUri = fileUri
                 )
-            }
-        }
-    }
-
-    private fun exportToZip(rootScreen: RootScreen) {
-        ivyContext.createNewFile(
-            "IvyWalletBackup_${
-                timeNowUTC().getISOFormattedDateTime()
-            }.zip"
-        ) { fileUri ->
-            viewModelScope.launch(Dispatchers.IO) {
-                progressState.value = true
-                backupDataUseCase.exportToFile(zipFileUri = fileUri)
-                progressState.value = false
-
-                sharedPrefs.putBoolean(SharedPrefs.DATA_BACKUP_COMPLETED, true)
-                ivyContext.dataBackupCompleted = true
-
-                uiThread {
-                    rootScreen.shareZipFile(
-                        fileUri = fileUri
-                    )
-                }
             }
         }
     }

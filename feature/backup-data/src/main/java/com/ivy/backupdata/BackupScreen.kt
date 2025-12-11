@@ -6,13 +6,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.backupdata.flow.BackupTo
 import com.ivy.legacy.IvyWalletPreview
+import com.ivy.legacy.rootScreen
 import com.ivy.navigation.BackupScreen
 import com.ivy.navigation.ImportScreen
 import com.ivy.onboarding.viewmodel.OnboardingViewModel
+import com.ivy.ui.R
+import com.ivy.wallet.ui.theme.modal.ProgressModal
 
 
 @OptIn(ExperimentalStdlibApi::class)
@@ -22,6 +26,8 @@ fun BoxWithConstraintsScope.BackupStepScreen(screen: BackupScreen) {
     val viewModel: BackupViewModel = viewModel()
     val backupStep by viewModel.backupStep.observeAsState(BackupStep.BACKUP_TO)
     val onboardingViewModel: OnboardingViewModel = viewModel()
+    val rootScreen = rootScreen()
+    val uiState = viewModel.uiState()
 
     com.ivy.legacy.utils.onScreenStart {
 //        viewModel.start(screen)
@@ -31,7 +37,10 @@ fun BoxWithConstraintsScope.BackupStepScreen(screen: BackupScreen) {
     UI(
         screen = screen,
         backupStep = backupStep,
-    )
+        progressState = uiState.progressState,
+        onBackupData = {
+            viewModel.onEvent(BackupEvent.BackupData(rootScreen))
+        })
 }
 
 
@@ -41,6 +50,8 @@ private fun BoxWithConstraintsScope.UI(
     screen: BackupScreen,
     backupStep: BackupStep,
     onSkip: () -> Unit = {},
+    progressState: Boolean = false,
+    onBackupData: () -> Unit = {},
 ) {
     when (backupStep) {
         BackupStep.BACKUP_TO -> {
@@ -48,9 +59,15 @@ private fun BoxWithConstraintsScope.UI(
                 hasSkip = screen.launchedFromOnboarding,
                 launchedFromOnboarding = screen.launchedFromOnboarding,
                 onSkip = onSkip,
+                onBackupData = onBackupData
             )
         }
     }
+    ProgressModal(
+        title = stringResource(com.ivy.ui.R.string.exporting_data),
+        description = stringResource(R.string.exporting_data_description),
+        visible = progressState
+    )
 }
 
 @ExperimentalFoundationApi
