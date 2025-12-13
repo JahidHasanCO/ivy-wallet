@@ -260,7 +260,15 @@ class ImportViewModel @Inject constructor(
             val driveBackupManager = GoogleDriveBackupManager(context, driveService)
             val result = driveBackupManager.listBackups()
             result.onSuccess { files ->
+                if (files.isEmpty()) {
+                    Timber.d("No backups found")
+                }
                 _driveBackups.value = files
+            }.onFailure {
+                Timber.e(it, "Failed to list backups")
+                com.ivy.legacy.utils.uiThread {
+                     android.widget.Toast.makeText(context, "Failed to list backups: ${it.message}", android.widget.Toast.LENGTH_LONG).show()
+                }
             }
         }
     }
@@ -297,6 +305,9 @@ class ImportViewModel @Inject constructor(
                 _importStep.value = ImportStep.RESULT
             } catch (e: Exception) {
                 Timber.e(e)
+                com.ivy.legacy.utils.uiThread {
+                    android.widget.Toast.makeText(context, "Restore failed: ${e.message}", android.widget.Toast.LENGTH_LONG).show()
+                }
                  _importStep.value = ImportStep.IMPORT_FROM
             } finally {
                 _driveRestoreInProgress.value = false

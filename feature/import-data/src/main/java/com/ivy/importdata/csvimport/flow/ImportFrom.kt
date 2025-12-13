@@ -69,7 +69,7 @@ fun BoxWithConstraintsScope.ImportFrom(
     val importTypes = ImportType.values()
     var showBackupDialog by remember { mutableStateOf(false) }
 
-    if (showBackupDialog && driveBackups.isNotEmpty()) {
+    if (showBackupDialog) {
         BackupSelectionDialog(
             backups = driveBackups,
             onDismiss = { showBackupDialog = false },

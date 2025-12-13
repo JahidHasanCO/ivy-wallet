@@ -89,7 +89,7 @@ class BackupDataUseCase @Inject constructor(
         try {
             val jsonString = generateJsonBackup()
             val jsonFile = createJsonDataFile(jsonString)
-            val zipFile = File(context.cacheDir, "backup_${System.currentTimeMillis()}.zip")
+            val zipFile = File(context.cacheDir, "IvyWalletBackup_${System.currentTimeMillis()}.zip")
             val zipUri = Uri.fromFile(zipFile)
 
             zip(context, zipUri, listOf(jsonFile))

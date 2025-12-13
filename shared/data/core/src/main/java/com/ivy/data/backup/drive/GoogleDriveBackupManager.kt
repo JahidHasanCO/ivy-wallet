@@ -70,7 +70,7 @@ class GoogleDriveBackupManager @Inject constructor(
     suspend fun listBackups(): Result<List<DriveFile>> = withContext(Dispatchers.IO) {
         try {
             val fileList = driveService.files().list()
-                .setQ("mimeType = 'application/zip' and name contains 'IvyWalletBackup' and explicitlyTrashed = false")
+                .setQ("mimeType = 'application/zip' and (name contains 'IvyWalletBackup' or name contains 'backup_') and explicitlyTrashed = false")
                 .setSpaces("drive")
                 .setFields("nextPageToken, files(id, name, createdTime)")
                 .setOrderBy("createdTime desc")
