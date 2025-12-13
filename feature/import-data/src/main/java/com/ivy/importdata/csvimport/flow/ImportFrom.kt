@@ -73,7 +73,7 @@ fun BoxWithConstraintsScope.ImportFrom(
         BackupSelectionDialog(
             backups = driveBackups,
             onDismiss = { showBackupDialog = false },
-            onSelect = { 
+            onSelect = {
                 showBackupDialog = false
                 onRestoreFromDrive(it)
             }
@@ -102,7 +102,7 @@ fun BoxWithConstraintsScope.ImportFrom(
             // Restore from Drive Section
             if (signedInAccount != null) {
                 // User Info
-                 Row(
+                Row(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp),
@@ -148,7 +148,7 @@ fun BoxWithConstraintsScope.ImportFrom(
                     )
                 }
             } else {
-                 Button(
+                Button(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(64.dp)
@@ -164,7 +164,7 @@ fun BoxWithConstraintsScope.ImportFrom(
                 }
             }
             Spacer(Modifier.height(24.dp))
-            
+
             val nav = navigation()
             Button(
                 modifier = Modifier
@@ -286,9 +286,8 @@ private fun BackupSelectionDialog(
                 .fillMaxWidth()
                 .padding(16.dp)
                 .clip(RoundedCornerShape(16.dp))
-               ,
-
-        ) {
+                .background(color = Color.White),
+            ) {
             Column(
                 modifier = Modifier.padding(16.dp)
             ) {
@@ -299,7 +298,7 @@ private fun BackupSelectionDialog(
                 )
 
                 if (backups.isEmpty()) {
-                     Text(
+                    Text(
                         text = "No backups found.",
                         style = UI.typo.b2.style(color = Color.Gray),
                         modifier = Modifier.padding(vertical = 16.dp)
@@ -309,15 +308,19 @@ private fun BackupSelectionDialog(
                         modifier = Modifier.height(300.dp) // Limit height
                     ) {
                         items(backups) { file ->
-                            BackupItem(file = file, onClick = { onSelect(file) })
+                            BackupItem(
+                                file = file,
+                                onClick = { onSelect(file) })
                         }
                     }
                 }
-                
+
                 Spacer(Modifier.height(16.dp))
-                
-                 Button(
-                    modifier = Modifier.fillMaxWidth().height(48.dp),
+
+                Button(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(48.dp),
                     onClick = onDismiss
                 ) {
                     Text("Cancel")
