@@ -17,4 +17,15 @@ dependencies {
     implementation(projects.temp.oldDesign)
 
     implementation(libs.bundles.opencsv)
+
+
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.auth)
+
+    implementation(libs.google.play.auth)
+    implementation(libs.google.auth.oauth)
+    implementation(libs.google.drive)
+    implementation(libs.bundles.google.drive)
+
 }

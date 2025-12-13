@@ -1,23 +1,37 @@
 package com.ivy.importdata.csvimport
 
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
+import androidx.activity.compose.ManagedActivityResultLauncher
+import androidx.activity.result.ActivityResult
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.Scope
+import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential
+import com.google.api.services.drive.Drive
+import com.google.api.services.drive.DriveScopes
+import com.ivy.base.legacy.getFileName
+import com.ivy.data.backup.BackupDataUseCase
+import com.ivy.data.backup.ImportResult
+import com.ivy.data.backup.drive.DriveFile
+import com.ivy.data.backup.drive.GoogleDriveBackupManager
+import com.ivy.data.file.FileSystem
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.legacy.domain.deprecated.logic.csv.CSVImporter
 import com.ivy.legacy.domain.deprecated.logic.csv.model.ImportType
-import com.ivy.data.backup.BackupDataUseCase
 import com.ivy.legacy.utils.asLiveData
-import com.ivy.base.legacy.getFileName
 import com.ivy.navigation.ImportScreen
 import com.ivy.navigation.Navigation
 import com.ivy.onboarding.viewmodel.OnboardingViewModel
 import com.ivy.wallet.domain.deprecated.logic.csv.CSVMapper
 import com.ivy.wallet.domain.deprecated.logic.csv.CSVNormalizer
-import com.ivy.data.file.FileSystem
-import com.ivy.data.backup.ImportResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.launch
@@ -195,6 +209,99 @@ class ImportViewModel @Inject constructor(
 
     private fun resetState() {
         _importStep.value = ImportStep.IMPORT_FROM
+    }
+
+
+    private val _signedInAccount = mutableStateOf<GoogleSignInAccount?>(null)
+    val signedInAccount: State<GoogleSignInAccount?> get() = _signedInAccount
+
+    private val _driveBackups = mutableStateOf<List<DriveFile>>(emptyList())
+    val driveBackups: State<List<DriveFile>> get() = _driveBackups
+
+    private val _driveRestoreInProgress = mutableStateOf(false)
+    val driveRestoreInProgress: State<Boolean> get() = _driveRestoreInProgress
+
+    fun checkSignedInAccount(context: Context) {
+        _signedInAccount.value = GoogleSignIn.getLastSignedInAccount(context)
+        if (_signedInAccount.value != null) {
+            listDriveBackups(context)
+        }
+    }
+
+    fun signInToGoogle(context: Context, launcher: ManagedActivityResultLauncher<Intent, ActivityResult>) {
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestEmail()
+            .requestScopes(Scope(DriveScopes.DRIVE_FILE))
+            .build()
+
+        val client = GoogleSignIn.getClient(context, gso)
+        launcher.launch(client.signInIntent)
+    }
+
+    fun onGoogleSignInResult(context: Context, account: GoogleSignInAccount) {
+        _signedInAccount.value = account
+        listDriveBackups(context)
+    }
+
+    private fun listDriveBackups(context: Context) {
+        val account = _signedInAccount.value ?: return
+        viewModelScope.launch(kotlinx.coroutines.Dispatchers.IO) {
+             val credential = GoogleAccountCredential.usingOAuth2(
+                context,
+                listOf(DriveScopes.DRIVE_FILE)
+            ).apply { selectedAccount = account.account }
+
+            val driveService = Drive.Builder(
+                com.google.api.client.http.javanet.NetHttpTransport(),
+                com.google.api.client.json.gson.GsonFactory.getDefaultInstance(),
+                credential
+            ).setApplicationName("IvyWallet").build()
+
+            val driveBackupManager = GoogleDriveBackupManager(context, driveService)
+            val result = driveBackupManager.listBackups()
+            result.onSuccess { files ->
+                _driveBackups.value = files
+            }
+        }
+    }
+
+    fun restoreFromDrive(context: Context, backupFile: DriveFile) {
+        val account = _signedInAccount.value ?: return
+        _driveRestoreInProgress.value = true
+        _importStep.value = ImportStep.LOADING
+
+        viewModelScope.launch {
+            try {
+                 val credential = GoogleAccountCredential.usingOAuth2(
+                    context,
+                    listOf(DriveScopes.DRIVE_FILE)
+                ).apply { selectedAccount = account.account }
+
+                val driveService = Drive.Builder(
+                    com.google.api.client.http.javanet.NetHttpTransport(),
+                    com.google.api.client.json.gson.GsonFactory.getDefaultInstance(),
+                    credential
+                ).setApplicationName("IvyWallet").build()
+
+                val driveBackupManager = GoogleDriveBackupManager(context, driveService)
+                
+                val result = backupDataUseCase.restoreFromGoogleDrive(
+                    driveBackupManager,
+                    backupFile.id
+                ) { progress ->
+                      com.ivy.legacy.utils.uiThread {
+                        _importProgressPercent.value = (progress * 100).roundToInt()
+                    }
+                }
+                _importResult.value = result
+                _importStep.value = ImportStep.RESULT
+            } catch (e: Exception) {
+                Timber.e(e)
+                 _importStep.value = ImportStep.IMPORT_FROM
+            } finally {
+                _driveRestoreInProgress.value = false
+            }
+        }
     }
 
     private suspend fun hasCSVExtension(
