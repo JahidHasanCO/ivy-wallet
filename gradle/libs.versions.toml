@@ -25,8 +25,8 @@ google-auth-library = "1.19.0"
 # Android
 min-sdk = "28"
 compile-sdk = "34"
-version-name = "2025.07.17"
-version-code = "206"
+version-name = "2025.12.13"
+version-code = "207"
 jvm-target = "21"
 
 
