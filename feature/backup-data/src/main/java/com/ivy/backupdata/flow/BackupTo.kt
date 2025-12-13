@@ -1,7 +1,6 @@
 package com.ivy.backupdata.flow
 
 
-
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.BoxWithConstraintsScope
@@ -24,6 +23,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -70,16 +70,13 @@ fun BoxWithConstraintsScope.BackupTo(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(64.dp)
-                    .padding(horizontal = 16.dp),
-                onClick = {
+                    .padding(horizontal = 16.dp), onClick = {
                     onBackupData();
-                }
-            ) {
+                }) {
                 Text(
                     text = stringResource(id = R.string.manual_backup),
                     style = UI.typo.b2.style(
-                        fontWeight = FontWeight.Bold,
-                        color = Color.White
+                        fontWeight = FontWeight.Bold, color = Color.White
                     )
                 )
             }
@@ -110,7 +107,11 @@ fun BoxWithConstraintsScope.BackupTo(
                     verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
                 ) {
                     Image(
-                        painter = rememberAsyncImagePainter(account.photoUrl),
+                        painter = rememberAsyncImagePainter(
+                            account.photoUrl,
+                            placeholder = painterResource(R.drawable.ic_profile),
+                            error = painterResource(R.drawable.ic_profile),
+                        ),
                         contentDescription = "Google Avatar",
                         modifier = Modifier
                             .size(64.dp)
@@ -143,14 +144,12 @@ fun BoxWithConstraintsScope.BackupTo(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(64.dp)
-                    .padding(horizontal = 16.dp),
-                onClick = onBackupNow
+                    .padding(horizontal = 16.dp), onClick = onBackupNow
             ) {
                 Text(
                     text = stringResource(id = R.string.backup_now),
                     style = UI.typo.b2.style(
-                        fontWeight = FontWeight.Bold,
-                        color = Color.White
+                        fontWeight = FontWeight.Bold, color = Color.White
                     )
                 )
             }

@@ -36,6 +36,8 @@ fun BoxWithConstraintsScope.BackupStepScreen(
     val rootScreen = rootScreen()
     val uiState = viewModel.uiState()
     val signedInAccount by viewModel.signedInAccountState
+    val lastBackupDate by viewModel.lastBackupDateTime
+
 
     val context = LocalContext.current
 
@@ -58,6 +60,7 @@ fun BoxWithConstraintsScope.BackupStepScreen(
         progressState = uiState.progressState,
         driveProgressState = uiState.driveProgressState,
         signedInAccount = signedInAccount,
+        lastBackupDate = lastBackupDate,
         onBackupData = {
             viewModel.onEvent(BackupEvent.BackupData(rootScreen))
         },
@@ -82,6 +85,7 @@ private fun BoxWithConstraintsScope.UI(
     onBackupData: () -> Unit = {},
     onBackupToDrive: () -> Unit = {},
     signedInAccount: GoogleSignInAccount? = null,
+    lastBackupDate: String? = null,
 ) {
     when (backupStep) {
         BackupStep.BACKUP_TO -> {
@@ -91,7 +95,8 @@ private fun BoxWithConstraintsScope.UI(
                 onSkip = onSkip,
                 signedInAccount = signedInAccount,
                 onBackupData = onBackupData,
-                onBackupNow = onBackupToDrive
+                onBackupNow = onBackupToDrive,
+                lastBackupDate = lastBackupDate,
             )
         }
     }

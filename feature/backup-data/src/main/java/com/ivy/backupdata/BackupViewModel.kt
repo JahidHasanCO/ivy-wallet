@@ -31,7 +31,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import androidx.compose.runtime.State
-
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 
 
 @HiltViewModel
@@ -44,11 +45,26 @@ class BackupViewModel @Inject constructor(
     private val _backupStep = MutableLiveData<BackupStep>()
     val backupStep = _backupStep.asLiveData()
 
+    private val _lastBackupDateTime = mutableStateOf<String?>(null)
+    val lastBackupDateTime: State<String?> get() = _lastBackupDateTime
+
+
     private val progressState = mutableStateOf(false)
     private val driveProgressState = mutableStateOf(false)
+
     private val googleBackupResult = mutableStateOf<Result<String>?>(null)
     private val signedInAccount = mutableStateOf<GoogleSignInAccount?>(null)
     val signedInAccountState: State<GoogleSignInAccount?> get() = signedInAccount
+
+
+    init {
+        initBackupState()
+    }
+
+    private fun initBackupState() {
+        _lastBackupDateTime.value = sharedPrefs.getString("LAST_DRIVE_BACKUP", null)
+    }
+
 
     @Composable
     override fun uiState(): BackupState {
@@ -98,6 +114,8 @@ class BackupViewModel @Inject constructor(
         }
     }
 
+
+
     fun checkSignedInAccount(context: Context) {
         signedInAccount.value = GoogleSignIn.getLastSignedInAccount(context)
     }
@@ -134,7 +152,17 @@ class BackupViewModel @Inject constructor(
         val driveBackupManager = GoogleDriveBackupManager(context, driveService)
 
         viewModelScope.launch(Dispatchers.IO) {
-            googleBackupResult.value = backupDataUseCase.backupToGoogleDrive(driveBackupManager)
+            val result = backupDataUseCase.backupToGoogleDrive(driveBackupManager)
+            googleBackupResult.value = result
+            if (result.isSuccess) {
+                val nowUtc = timeNowUTC()
+                val formatter = DateTimeFormatter.ofPattern("EEEE, dd MMMM yyyy, hh:mm a")
+                    .withZone(ZoneId.systemDefault()) // convert to device local time
+                val formattedDate = nowUtc.atZone(ZoneId.of("UTC")).format(formatter)
+
+                sharedPrefs.putString("LAST_DRIVE_BACKUP", formattedDate)
+                _lastBackupDateTime.value = formattedDate
+            }
             driveProgressState.value = false
         }
     }
