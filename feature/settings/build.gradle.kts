@@ -17,4 +17,13 @@ dependencies {
     implementation(projects.widget.balance)
 
     testImplementation(projects.shared.ui.testing)
+
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.auth)
+
+    implementation(libs.google.play.auth)
+    implementation(libs.google.auth.oauth)
+    implementation(libs.google.drive)
+    implementation(libs.bundles.google.drive)
 }

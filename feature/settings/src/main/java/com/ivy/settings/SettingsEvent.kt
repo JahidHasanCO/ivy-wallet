@@ -18,4 +18,5 @@ sealed interface SettingsEvent {
     data object DeleteCloudUserData : SettingsEvent
     data object DeleteAllUserData : SettingsEvent
     data object SwitchLanguage : SettingsEvent
+    data object SignOut : SettingsEvent
 }

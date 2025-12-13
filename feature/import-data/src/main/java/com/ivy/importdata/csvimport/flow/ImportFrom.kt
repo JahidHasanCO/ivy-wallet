@@ -66,7 +66,7 @@ fun BoxWithConstraintsScope.ImportFrom(
     onRestoreFromDrive: (DriveFile) -> Unit = {},
     onSignInToDrive: () -> Unit = {}
 ) {
-    val importTypes = ImportType.values()
+    val importTypes = ImportType.entries.toTypedArray()
     var showBackupDialog by remember { mutableStateOf(false) }
 
     if (showBackupDialog) {
@@ -100,7 +100,7 @@ fun BoxWithConstraintsScope.ImportFrom(
             Spacer(Modifier.height(8.dp))
 
             // Restore from Drive Section
-            if (signedInAccount != null) {
+            if (signedInAccount != null && !launchedFromOnboarding) {
                 // User Info
                 Row(
                     modifier = Modifier
@@ -118,6 +118,7 @@ fun BoxWithConstraintsScope.ImportFrom(
                         modifier = Modifier
                             .size(64.dp)
                             .clip(CircleShape)
+                            .background(UI.colors.primary)
                     )
                     Spacer(Modifier.width(16.dp))
                     Column {
@@ -147,7 +148,7 @@ fun BoxWithConstraintsScope.ImportFrom(
                         )
                     )
                 }
-            } else {
+            } else if (!launchedFromOnboarding) {
                 Button(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -287,7 +288,7 @@ private fun BackupSelectionDialog(
                 .padding(16.dp)
                 .clip(RoundedCornerShape(16.dp))
                 .background(color = Color.White),
-            ) {
+        ) {
             Column(
                 modifier = Modifier.padding(16.dp)
             ) {

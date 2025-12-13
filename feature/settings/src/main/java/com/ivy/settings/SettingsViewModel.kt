@@ -6,12 +6,20 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
+import androidx.activity.compose.ManagedActivityResultLauncher
+import androidx.activity.result.ActivityResult
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
+import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.Scope
+import com.google.api.services.drive.DriveScopes
 import com.ivy.base.legacy.SharedPrefs
 import com.ivy.base.legacy.Theme
 import com.ivy.base.legacy.refreshWidget
@@ -39,6 +47,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @Stable
@@ -68,6 +77,9 @@ class SettingsViewModel @Inject constructor(
     private val hideIncome = mutableStateOf(false)
     private val treatTransfersAsIncomeExpense = mutableStateOf(false)
     private val startDateOfMonth = mutableIntStateOf(1)
+
+    private val _signedInAccount = mutableStateOf<GoogleSignInAccount?>(null)
+    val signedInAccount: State<GoogleSignInAccount?> get() = _signedInAccount
 
     @Composable
     override fun uiState(): SettingsState {
@@ -99,6 +111,41 @@ class SettingsViewModel @Inject constructor(
         initializeHideIncome()
         initializeTransfersAsIncomeExpense()
         initializeStartDateOfMonth()
+    }
+
+    fun checkSignedInAccount(context: Context) {
+        _signedInAccount.value = GoogleSignIn.getLastSignedInAccount(context)
+    }
+
+    fun signInToGoogle(context: Context, launcher: ManagedActivityResultLauncher<Intent, ActivityResult>) {
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestEmail()
+            .requestScopes(Scope(DriveScopes.DRIVE_FILE))
+            .build()
+
+        val client = GoogleSignIn.getClient(context, gso)
+        launcher.launch(client.signInIntent)
+    }
+
+    fun onGoogleSignInResult(account: GoogleSignInAccount) {
+        _signedInAccount.value = account
+    }
+
+    private fun signOutFromGoogle(context: Context) {
+        val signInClient = GoogleSignIn.getClient(
+            context,
+            GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build()
+        )
+
+        signInClient.signOut().addOnCompleteListener {
+            // Handle successful sign-out
+            _signedInAccount.value = null
+        }.addOnFailureListener { e ->
+            // Handle error
+            Timber.e(e)
+        }
     }
 
     private suspend fun initializeCurrency() {
@@ -220,10 +267,12 @@ class SettingsViewModel @Inject constructor(
             )
 
             is SettingsEvent.SetStartDateOfMonth -> setStartDateOfMonth(event.startDate)
+            is SettingsEvent.SignOut -> signOutFromGoogle(context)
 
             SettingsEvent.DeleteCloudUserData -> deleteCloudUserData()
             SettingsEvent.DeleteAllUserData -> deleteAllUserData()
             SettingsEvent.SwitchLanguage -> switchLanguage()
+
         }
     }
 

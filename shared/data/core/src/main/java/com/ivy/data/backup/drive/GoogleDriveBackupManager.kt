@@ -9,6 +9,9 @@ import com.google.api.services.drive.model.File
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
+import java.time.Instant
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 import java.io.File as LocalFile
 import javax.inject.Inject
 import kotlin.io.outputStream
@@ -75,11 +78,20 @@ class GoogleDriveBackupManager @Inject constructor(
                     .setFields("nextPageToken, files(id, name, createdTime)")
                     .setOrderBy("createdTime desc").execute()
 
+                val formatter = DateTimeFormatter.ofPattern("EEEE, dd MMMM yyyy, hh:mm a")
+                    .withZone(ZoneId.systemDefault())
+
                 val files = fileList.files.map {
+                    val createdTimeFormatted = if (it.createdTime != null) {
+                        val instant = Instant.parse(it.createdTime.toStringRfc3339())
+                        formatter.format(instant)
+                    } else {
+                        null
+                    }
                     DriveFile(
                         id = it.id,
                         name = it.name,
-                        createdTime = it.createdTime?.toString()
+                        createdTime = createdTimeFormatted
                     )
                 }
 

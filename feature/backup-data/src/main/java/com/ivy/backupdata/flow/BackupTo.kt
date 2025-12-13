@@ -3,6 +3,7 @@ package com.ivy.backupdata.flow
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.BoxWithConstraintsScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -116,6 +117,7 @@ fun BoxWithConstraintsScope.BackupTo(
                         modifier = Modifier
                             .size(64.dp)
                             .clip(CircleShape)
+                            .background(UI.colors.primary)
                     )
                     Spacer(Modifier.width(16.dp))
                     Column {
