@@ -21,6 +21,8 @@ android {
         targetSdk = libs.versions.compile.sdk.get().toInt()
         versionName = libs.versions.version.name.get()
         versionCode = libs.versions.version.code.get().toInt()
+
+        multiDexEnabled = true
     }
 
     androidResources {
